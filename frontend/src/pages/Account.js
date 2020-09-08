@@ -1,62 +1,128 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import { BrowserRouter as Router, Link, withRouter } from "react-router-dom";
+import Cars from '../components/Cars/Cars';
 import Spinner from '../components/Spinner/Spinner';
 
 class Account extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
-            loading: false
+            results: [],
+            showResults: false,
+            loading: true
         };
-        this.loginHandler = this.loginHandler.bind(this);
-        this.changeHandler = this.changeHandler.bind(this);
+        this.deleteResultHandler = this.deleteResultHandler.bind(this);
     }
 
-    changeHandler = (event) => {
-        this.setState({[event.target.name]: event.target.value});
-    }
+    componentDidMount() {
+        const results = [
+            {
+                "id": 1,
+                "make": "Toyota",
+                "model": "Camry",
+                "year": "2019",
+                "issues": [
+                    {
+                        "id": 1,
+                        "name": "Airbag malfunction in 2007 serial numbers",
+                        "description": "There has been a recall of all Toyota Camry cars with 2007 serial numbers"
 
-    loginHandler(event) {
-        event.preventDefault();
+                    },
+                    {
+                        "id": 2,
+                        "name": "Airbag malfunction in 2008 serial numbers",
+                        "description": "There has been a recall of all Toyota Camry cars with 2008 serial numbers"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "make": "Ford",
+                "model": "Fiesta",
+                "year": "2016",
+                "issues": [
+                    {
+                        "id": 1,
+                        "name": "Airbag malfunction in 2007 serial numbers",
+                        "description": "There has been a recall of all Toyota Camry cars with 2007 serial numbers"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Airbag malfunction in 2008 serial numbers",
+                        "description": "There has been a recall of all Toyota Camry cars with 2008 serial numbers"
+                    }
+                ]
+            }
+        ]
 
-        this.setState({loading: true});
-        this.setState({loading: false});
+        // axios.defaults.headers = {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Token ${this.props.token}`
+        // };
 
         // axios
-        //     .post('http://127.0.0.1:8000/api/', {
-        //         'make': data.make,
-        //         'model': data.model,
-        //     }, {
-        //         headers: {
-        //             "Authorization": 'AUTHORIZATION_KEY',
-        //             "Content-Type": 'application/json'
+        //     .get('http://127.0.0.1:8000/api/cars/')
+        //     .then(res => {
+        //         this.setState({ cars: res.data });
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+
+        this.setState({
+            results: results,
+            showResults: true,
+            loading: false
+        });
+    }
+
+    deleteResultHandler = (resultIndex, id) => {
+        const results = [...this.state.results];
+        results.splice(resultIndex, 1);
+        this.setState({results: results});
+
+        // TODO tell the server a result is deleted
+        // axios.defaults.headers = {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Token ${this.props.token}`
+        // };
+        // axios
+        //     .delete(`http://127.0.0.1:8000/api/${id}/delete/`)
+        //     .then(res => {
+        //         if (res.status === 204) {
+        //             // TODO RETURN ERROR MESSAGE FOR VARIOUS ERROR CODES
         //         }
         //     })
-        //     .then(res => console.log(res))
-        //     .catch(error => console.err(error))
+
     }
 
     render() {
+        if(!this.props.isAuthenticated) {
+            this.props.history.push('/login');
+        }
+        let results = null;
+
+        if(this.state.showResults && this.props.isAuthenticated) {
+            results = <Cars
+                results={this.state.results}
+                clicked={this.deleteResultHandler} />
+        }
         return (
-            <div className="Account">
+            <div className="Home">
                 <div class="row">
                     <div class="col">
-                        <h1 className="page-title display-4">CheckYourCar</h1>
-                        <h3>Login or Register</h3>
+                        <h1 className="page-title display-4">My Account</h1>
                     </div>
                 </div>
                 <div class="row justify-content-md-center mb-4 mt-4">
                     <div class="col-4">
-                        <form onSubmit={this.loginHandler}>
-                            <div class="form-group">
-                                <input type="text" placeholder="Username" name="username" value={this.state.username} onChange={this.changeHandler} className="form-control form-control-lg" />
-                            </div>
-                            <div class="form-group">
-                                <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.changeHandler} className="form-control form-control-lg" />
-                            </div>
-                            <input type="submit" value="Login" className="btn btn-primary btn-lg" />
-                        </form>
+                        <Link className="btn btn-primary" to="/add">Add New Car</Link> <Link className="btn btn-secondary" to="/settings">Account Settings</Link>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-6">
+                        {this.state.loading ? <Spinner text="Loading..." /> : results}
                     </div>
                 </div>
             </div>
@@ -64,4 +130,4 @@ class Account extends Component {
     }
 }
 
-export default Account;
+export default withRouter(Account);

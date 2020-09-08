@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Route, BrowserRouter as Router, Switch, Link} from "react-router-dom";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
 import './App.css';
 import Home from '../pages/Home';
 import Account from '../pages/Account';
+import AddCar from '../pages/AddCar';
+import Settings from '../pages/Settings';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 import Header from '../components/Header/Header';
+import { history } from '../helpers/History';
+import * as actions from '../store/Actions/Auth';
 
 const list = [
   {
@@ -30,6 +37,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.props.onTryAutoSignup();
     //this.getIssues();
   }
 
@@ -46,20 +54,35 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <div className="App">
-          <Header isAuthenticated={this.state.isAuthenticated} />
-          <div class="container">
+          <Header {...this.props} />
+          <div class="container mb-4">
             <Switch>
-              <Route path="/user-account" exact component={Account} />
-              <Route path="/" exact component={Home} />
+              <Route path="/account" exact render={(props) => ( <Account {...this.props} />)} />
+              <Route path="/add" exact render={(props) => ( <AddCar {...this.props} />)} />
+              <Route path="/settings" exact render={(props) => ( <Settings {...this.props} />)} />
+              <Route path="/login" exact render={(props) => ( <Login {...this.props} />)} />
+              <Route path="/register" exact render={(props) => ( <Register {...this.props} />)} />
+              <Route path="/" exact render={(props) => ( <Home {...this.props} />)} />
             </Switch>
           </div>
         </div>
       </Router>
-      
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.token !== null
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignup: () => dispatch(actions.authCheckState())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

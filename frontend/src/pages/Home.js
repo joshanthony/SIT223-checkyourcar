@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Results from '../components/Results/Results';
 import Spinner from '../components/Spinner/Spinner';
-// import {useHistory} from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 class Home extends Component {
     constructor(props) {
@@ -9,6 +9,7 @@ class Home extends Component {
         this.state = {
             make: '',
             model: '',
+            year: '',
             results: [],
             showResults: false,
             selected: [],
@@ -48,23 +49,24 @@ class Home extends Component {
             }
         ]
 
+        // axios.defaults.headers = {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Token ${this.props.token}`
+        // };
+
+        // axios
+        //     .get('http://127.0.0.1:8000/api/')
+        //     .then(res => {
+        //         this.setState({ results: res.data });
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     });
+
         if(results && results.length) {
             this.setState({results: results, loading: false});
             this.toggleResultsHandler();
         }
-
-        // axios
-        //     .post('http://127.0.0.1:8000/api/', {
-        //         'make': data.make,
-        //         'model': data.model,
-        //     }, {
-        //         headers: {
-        //             "Authorization": 'AUTHORIZATION_KEY',
-        //             "Content-Type": 'application/json'
-        //         }
-        //     })
-        //     .then(res => console.log(res))
-        //     .catch(error => console.err(error))
     }   
 
         // history.push({
@@ -111,27 +113,30 @@ class Home extends Component {
 
         return (
             <div className="Home">
-                <div class="row">
-                    <div class="col">
+                <div className="row">
+                    <div className="col">
                         <h1 className="page-title display-4">CheckYourCar</h1>
                         <h3>Enter your car make and model</h3>
                     </div>
                 </div>
-                <div class="row justify-content-md-center mb-4 mt-4">
-                    <div class="col-4">
+                <div className="row justify-content-md-center mb-4 mt-4">
+                    <div className="col-4">
                         <form onSubmit={this.submitHandler}>
-                            <div class="form-group">
+                            <div className="form-group">
                                 <input type="text" placeholder="Make" name="make" value={this.state.make} onChange={this.changeHandler} className="form-control form-control-lg" />
                             </div>
-                            <div class="form-group">
+                            <div className="form-group">
                                 <input type="text" placeholder="Model" name="model" value={this.state.model} onChange={this.changeHandler} className="form-control form-control-lg" />
+                            </div>
+                            <div className="form-group">
+                                <input type="text" placeholder="Year" name="year" value={this.state.year} onChange={this.changeHandler} className="form-control form-control-lg" />
                             </div>
                             <input type="submit" value="Find Issues" className="btn btn-primary btn-lg" />
                         </form>
                     </div>
                 </div>
-                <div class="row justify-content-md-center">
-                    <div class="col-6">
+                <div className="row justify-content-md-center">
+                    <div className="col-6">
                         {this.state.loading ? <Spinner text="Loading..." /> : results}
                     </div>
                 </div>
