@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#Provides standard database validity checking with import/export library
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+
 
 # Application definition
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'checkyourcar.apps.CheckyourcarConfig',
+    'import_export',
 ]
 
 MIDDLEWARE = [
