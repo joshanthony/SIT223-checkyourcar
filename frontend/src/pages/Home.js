@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Results from '../components/Results/Results';
 import Spinner from '../components/Spinner/Spinner';
-// import { useHistory } from "react-router-dom";
 
 class Home extends Component {
     constructor(props) {
@@ -48,11 +47,6 @@ class Home extends Component {
                 "selected": false
             }
         ]
-
-        // axios.defaults.headers = {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Token ${this.props.token}`
-        // };
 
         // axios
         //     .get('http://127.0.0.1:8000/api/')
