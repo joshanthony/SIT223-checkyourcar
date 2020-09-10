@@ -3,7 +3,7 @@ import { updateObject } from '../Utility';
 
 const initialState = {
     token: null,
-    error: null, 
+    error: null,
     loading: false
 }
 
