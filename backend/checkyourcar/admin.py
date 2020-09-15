@@ -3,16 +3,12 @@ from django.contrib import admin
 from .models import Car, Issue, User
 
 
-
 class CarAdmin(ImportExportModelAdmin):
     list_display = ['id', 'make', 'model', 'year']
 
 
-
-
 class UserAdmin(ImportExportModelAdmin):
     list_display = ['id', 'name', 'email']
-
 
 
 class IssueAdmin(ImportExportModelAdmin):
