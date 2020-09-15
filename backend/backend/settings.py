@@ -28,8 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-#Provides standard database validity checking with import/export library
+# Provides standard database validity checking with import/export library
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
 
 
 # Application definition
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'checkyourcar.apps.CheckyourcarConfig',
     'import_export',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +55,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://localhost:8000',
 ]
 
 ROOT_URLCONF = 'backend.urls'

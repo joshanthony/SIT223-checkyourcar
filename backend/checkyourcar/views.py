@@ -1,6 +1,26 @@
 from django.shortcuts import render
 from tablib import Dataset
 from checkyourcar.resources import CarResources, IssueResources, UserResources
+from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
+
+from checkyourcar.serializer import CarSerializer, IssueSerializer
+from checkyourcar.models import Car, Issue
+
+
+class CarList(ListAPIView):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
+
+
+class CarSearch(RetrieveAPIView):
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer
+
+
+class IssueList(ListAPIView):
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
 
 
 def simple_upload(request):
