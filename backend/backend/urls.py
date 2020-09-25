@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from checkyourcar.views import CarSearch, CarList
+from checkyourcar.views import CarSearch, CarList, IssueSearch
 
 urlpatterns = [
     path('<int:pk>/', CarSearch.as_view()),
     path('', CarList.as_view()),
+    path('api/issues/', IssueSearch.as_view()),
     path('admin/', admin.site.urls),
 ]

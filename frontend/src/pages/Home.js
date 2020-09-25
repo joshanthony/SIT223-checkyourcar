@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import Results from '../components/Results/Results';
 import Spinner from '../components/Spinner/Spinner';
 
@@ -27,72 +28,80 @@ class Home extends Component {
 
         this.setState({loading: true});
 
-        const results = [
-            {
-                "id": 1,
-                "name": "Airbag malfunction in 2007 serial numbers",
-                "description": "There has been a recall of all Toyota Camry cars with 2007 serial numbers",
-                "selected": false
-            },
-            {
-                "id": 2,
-                "name": "Airbag malfunction in 2008 serial numbers",
-                "description": "There has been a recall of all Toyota Camry cars with 2008 serial numbers",
-                "selected": false
-            },
-            {
-                "id": 3,
-                "name": "Camry streering issues in the late 90s",
-                "description": "Any Camry owners from the mid to late 90s should contact their local dealer",
-                "selected": false
+        //const results = [];
+
+        // const results = [
+        //     {
+        //         "id": 1,
+        //         "name": "Airbag malfunction in 2007 serial numbers",
+        //         "description": "There has been a recall of all Toyota Camry cars with 2007 serial numbers",
+        //         "selected": false
+        //     },
+        //     {
+        //         "id": 2,
+        //         "name": "Airbag malfunction in 2008 serial numbers",
+        //         "description": "There has been a recall of all Toyota Camry cars with 2008 serial numbers",
+        //         "selected": false
+        //     },
+        //     {
+        //         "id": 3,
+        //         "name": "Camry streering issues in the late 90s",
+        //         "description": "Any Camry owners from the mid to late 90s should contact their local dealer",
+        //         "selected": false
+        //     }
+        // ]
+
+        axios.get('http://127.0.0.1:8000/api/issues/', {
+            params: {
+                make: this.state.make,
+                model: this.state.model,
+                year: this.state.year
             }
-        ]
+        })
+        .then(res => {
+            //let issues = [];
+            //res.data.map((issue) => { issues = [...issues, issue.issues] });
 
-        // axios
-        //     .get('http://127.0.0.1:8000/api/')
-        //     .then(res => {
-        //         this.setState({ results: res.data });
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+            this.setState({ results: res.data, loading: false });
+            this.toggleResultsHandler();
+            console.log(this.state.results);
+        })
+        .catch(err => {
+            console.log(err);
+        });
 
-        if(results && results.length) {
-            this.setState({results: results, loading: false});
+        if(this.state.results.length) {
+            this.setState({loading: false});
             this.toggleResultsHandler();
         }
-    }   
-
-        // history.push({
-        //     pathname: '/results',
-        //     state: { make: data.make, model: data.model }
-        // });
-
-    selectResultHandler = (id) => {
-        // get the index of the result id where the event happened
-        const resultIndex = this.state.results.findIndex(r => {
-            return r.id === id;
-        });
-        // get the specific result object and copy it to a new object using the index
-        const result = {
-            ...this.state.results[resultIndex]
-        };
-        // update the result's selected value to the new selected value
-        result.selected = !result.selected;
-        // copy the full state into a new array
-        const results = [...this.state.results];
-        // set the result array copy to override the results state array at this index
-        results[resultIndex] = result;
-
-        //const selected = [...this.state.selected];
-        //selected.push(resultIndex);
-        this.setState({results: results});
     }
+
+    // // This code is no longer being used, TBA remove
+    // selectResultHandler = (id) => {
+    //     // get the index of the result id where the event happened
+    //     const resultIndex = this.state.results.findIndex(r => {
+    //         return r.id === id;
+    //     });
+    //     // get the specific result object and copy it to a new object using the index
+    //     const result = {
+    //         ...this.state.results[resultIndex]
+    //     };
+    //     // update the result's selected value to the new selected value
+    //     result.selected = !result.selected;
+    //     // copy the full state into a new array
+    //     const results = [...this.state.results];
+    //     // set the result array copy to override the results state array at this index
+    //     results[resultIndex] = result;
+
+    //     //const selected = [...this.state.selected];
+    //     //selected.push(resultIndex);
+    //     this.setState({results: results});
+    // }
 
     toggleResultsHandler = () => {
         const doesShow = this.state.showResults;
         this.setState({
-            showResults: !doesShow
+            showResults: true
         });
     }
 
@@ -101,8 +110,7 @@ class Home extends Component {
 
         if(this.state.showResults) {
         results = <Results
-            results={this.state.results}
-            clicked={this.selectResultHandler} />
+            results={this.state.results} />
         }
 
         return (
