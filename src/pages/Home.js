@@ -19,6 +19,9 @@ class Home extends Component {
         };
         this.submitHandler = this.submitHandler.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
+        this.makeChangeHandler = this.makeChangeHandler.bind(this);
+        this.modelChangeHandler = this.modelChangeHandler.bind(this);
+        this.yearChangeHandler = this.yearChangeHandler.bind(this);
     }
 
     componentDidMount() {
@@ -40,10 +43,26 @@ class Home extends Component {
         console.log(event.target.value);
     }
 
+    makeChangeHandler = ({ target: { value } }) => {
+        this.setState({ make: value });
+    }
+
+    modelChangeHandler = ({ target: { value } }) => {
+        this.setState({ model: value });
+    }
+
+    yearChangeHandler = ({ target: { value } }) => {
+        this.setState({ year: value });
+    }
+
     submitHandler(event) {
         event.preventDefault();
 
         this.setState({loading: true});
+
+        const make = event.target[0].value;
+        const model = event.target[1].value;
+        const year = event.target[2].value;
 
         axios.get('https://checkyourcar.herokuapp.com/api/issues/', {
             params: {
@@ -97,17 +116,17 @@ class Home extends Component {
                     <div className="col-4">
                         <form onSubmit={this.submitHandler}>
                             <div className="form-group">
-                                <select name="make" className="form-control form-control-lg" onChange={this.changeHandler}>
+                                <select name="make" className="form-control form-control-lg" onChange={this.makeChangeHandler}>
                                 {this.state.cars.map(o => <option value={o.make}>{o.make}</option>)}
                                 </select>
                             </div>
                             <div className="form-group">
-                                <select name="model" className="form-control form-control-lg" onChange={this.changeHandler}>
+                                <select name="model" className="form-control form-control-lg" onChange={this.modelChangeHandler}>
                                 {this.state.cars.map(o => <option value={o.model}>{o.model}</option>)}
                                 </select>
                             </div>
                             <div className="form-group">
-                                <select name="year" className="form-control form-control-lg" onChange={this.changeHandler}>
+                                <select name="year" className="form-control form-control-lg" onChange={this.yearChangeHandler}>
                                     {this.state.cars.map(o => <option value={o.year}>{o.year}</option>)}
                                 </select>
                             </div>
