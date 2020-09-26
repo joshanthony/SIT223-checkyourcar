@@ -20,8 +20,9 @@ from checkyourcar.views import CarSearch, CarList, IssueSearch, UserCarList, Car
 urlpatterns = [
     path('api/issues/', IssueSearch.as_view()),
     path('api/cars/', UserCarList.as_view()),
-    path('api/cars/<pk>', CarUpdateView.as_view()),
-    path('api/cars/<pk>/remove', CarDestroyView.as_view()),
+    path('api/carlist/', CarList.as_view()),
+    path('api/cars/<pk>/', CarUpdateView.as_view()),
+    path('api/cars/<pk>/remove/', CarDestroyView.as_view()),
     path('admin/', admin.site.urls),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-autho/registration/', include('rest_auth.registration.urls')),

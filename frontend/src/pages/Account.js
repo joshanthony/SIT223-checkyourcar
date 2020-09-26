@@ -16,45 +16,7 @@ class Account extends Component {
     }
 
     componentDidMount() {
-        const results = [
-            {
-                "id": 1,
-                "make": "Toyota",
-                "model": "Camry",
-                "year": "2019",
-                "issues": [
-                    {
-                        "id": 1,
-                        "name": "Airbag malfunction in 2007 serial numbers",
-                        "description": "There has been a recall of all Toyota Camry cars with 2007 serial numbers"
-
-                    },
-                    {
-                        "id": 2,
-                        "name": "Airbag malfunction in 2008 serial numbers",
-                        "description": "There has been a recall of all Toyota Camry cars with 2008 serial numbers"
-                    }
-                ]
-            },
-            {
-                "id": 2,
-                "make": "Ford",
-                "model": "Fiesta",
-                "year": "2016",
-                "issues": [
-                    {
-                        "id": 1,
-                        "name": "Airbag malfunction in 2007 serial numbers",
-                        "description": "There has been a recall of all Toyota Camry cars with 2007 serial numbers"
-                    },
-                    {
-                        "id": 2,
-                        "name": "Airbag malfunction in 2008 serial numbers",
-                        "description": "There has been a recall of all Toyota Camry cars with 2008 serial numbers"
-                    }
-                ]
-            }
-        ]
+        const results = []
 
         const token = localStorage.getItem('token');
 
@@ -62,7 +24,7 @@ class Account extends Component {
             "Content-Type": "application/json",
             Authorization: `Token ${token}`
         };
-        
+
         axios
             .get('http://127.0.0.1:8000/api/cars/')
             .then(res => {
@@ -86,17 +48,15 @@ class Account extends Component {
         this.setState({results: results});
 
         // TODO tell the server a result is deleted
-        // axios.defaults.headers = {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Token ${this.props.token}`
-        // };
-        // axios
-        //     .delete(`http://127.0.0.1:8000/api/${id}/delete/`)
-        //     .then(res => {
-        //         if (res.status === 204) {
-        //             // TODO RETURN ERROR MESSAGE FOR VARIOUS ERROR CODES
-        //         }
-        //     })
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem('token')}`
+        };
+        axios
+            .patch(`http://127.0.0.1:8000/api/cars/${id}/remove/`)
+            .then(res => {
+                console.log(res);
+            })
 
     }
 

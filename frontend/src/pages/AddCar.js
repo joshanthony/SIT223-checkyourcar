@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 
 class AddCar extends Component {
@@ -9,6 +10,8 @@ class AddCar extends Component {
             make: '',
             model: '',
             year: '',
+            results: [],
+            showResults: false,
             loading: false,
             errorMessage: null
         };
@@ -16,46 +19,66 @@ class AddCar extends Component {
         this.changeHandler = this.changeHandler.bind(this);
     }
 
-    changeHandler = (event) => {
-        this.setState({[event.target.name]: event.target.value});
+    componentDidMount() {
+        const results = []
+
+        axios
+            .get('http://127.0.0.1:8000/api/carlist/')
+            .then(res => {
+                this.setState({ results: res.data });
+
+                this.setState({
+                    id: results[0].id,
+                    results: res.data,
+                    showResults: true,
+                    loading: false
+                });
+                console.log(res.data );
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        this.setState({
+            id: 0,
+            results: results,
+            showResults: true,
+            loading: false
+        });
+
+        
     }
+
+    // changeHandler = (event) => {
+    //     this.setState({[event.target.name]: event.target.value});
+    // }
+
+    changeHandler = ({ target: { value } }) => {
+        this.setState({ id: value });
+      }
 
     submitHandler(event) {
         event.preventDefault();
 
-        const make = this.state.make;
-        const model = this.state.model;
-        const year = this.state.year;
+        const id = event.target[0].value;
 
-        if ( make == null || make == "" || model == null || model == "" || year == null || year == "" ) {
-            this.setState({errorMessage: 'Please complete all fields'});
-        } else {
-        
-            this.setState({loading: true});
+        this.setState({id: id});
+        console.log(this.state.id);
 
-            // axios.defaults.headers = {
-            //     "Content-Type": "application/json",
-            //     Authorization: `Token ${this.props.token}`
-            // };
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            Authorization: `Token ${localStorage.getItem('token')}`
+        };
+        axios
+            .patch(`http://127.0.0.1:8000/api/cars/${id}/`)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
-            // axios
-            //     .patch('http://127.0.0.1:8000/api/', {
-            //         make: make,
-            //         model: model,
-            //         year: year
-            //     })
-            //     .then(function (response) {
-            //         console.log(response);
-                        // this.setState({errorMessage: null});
-                        // this.props.history.push('/account');
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error);
-                        // this.setState({errorMessage: 'Adding car failed, please try again'});
-            //     });
-
-            this.props.history.push('/account');
-        }
+        this.props.history.push('/account');
     }   
 
     render() {
@@ -77,20 +100,16 @@ class AddCar extends Component {
                 <div className="row">
                     <div className="col">
                         <h1 className="page-title display-4">Add Car</h1>
+                        <h3>Select your car to add</h3>
                     </div>
                 </div>
                 <div className="row justify-content-md-center mb-4 mt-4">
                     <div className="col-4">
-                        <div>{errorMessage}</div>
                         <form onSubmit={this.submitHandler}>
                             <div className="form-group">
-                                <input type="text" placeholder="Make" name="make" value={this.state.make} onChange={this.changeHandler} className="form-control form-control-lg" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" placeholder="Model" name="model" value={this.state.model} onChange={this.changeHandler} className="form-control form-control-lg" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" placeholder="Year" name="year" value={this.state.year} onChange={this.changeHandler} className="form-control form-control-lg" />
+                                <select name="id" className="form-control" onChange={this.changeHandler}>
+                                    {this.state.results.map(o => <option key={o.id} value={o.id}>{o.make} {o.model} ({o.year})</option>)}
+                                </select>
                             </div>
                             <input type="submit" value="Add Car" className="btn btn-primary btn-lg" />
                         </form>
