@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from tablib import Dataset
-from checkyourcar.resources import CarResources, IssueResources, UserResources
+from checkyourcar.resources import CarResources, IssueResources
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet, Filter
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from checkyourcar.serializer import CarSerializer, IssueSerializer, UserCarSerializer
 from checkyourcar.models import Car, Issue
@@ -56,6 +58,8 @@ class IssueList(ListAPIView):
     serializer_class = IssueSerializer
 
 class UserCarList(ListAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
     queryset = Car.objects.all()
     serializer_class = UserCarSerializer
     filter_backends = [DjangoFilterBackend]
