@@ -60,13 +60,14 @@ class IssueList(ListAPIView):
 class UserCarList(ListAPIView):
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
-    queryset = Car.objects.all()
     serializer_class = UserCarSerializer
     filter_backends = [DjangoFilterBackend]
     
     def get_queryset(self):
+        queryset = Car.objects.all()
         current_user = self.request.user
-        return User.objects.filter(id=current_user.id)
+        queryset = queryset.filter(users__id=current_user.id)
+        return queryset
 
 def simple_upload(request):
     if request.method == 'POST':

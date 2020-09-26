@@ -21,8 +21,8 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'email', 'username')
 
 class UserCarSerializer(serializers.ModelSerializer):
-    users = UserSerializer(many=True)
+    users = UserSerializer(many=True, read_only=True)
     issues = IssueSerializer(many=True)
     class Meta:
         model = Car
-        fields = ('users','issues','make', 'model', 'year')
+        fields = ('id', 'make', 'model', 'year', 'users','issues')
