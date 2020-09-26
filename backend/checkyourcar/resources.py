@@ -5,7 +5,7 @@ from .models import Car, Issue, User
 class CarResources(resources.ModelResource):
     class meta:
         model = Car
-        skip_unchanmged = True
+        skip_unchanged = True
 
 
 class IssueResources(resources.ModelResource):

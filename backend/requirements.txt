@@ -67,7 +67,6 @@ pipenv==2018.11.26
 prometheus-client==0.7.1
 prompt-toolkit==3.0.4
 ptyprocess==0.6.0
-pygame==1.9.6
 Pygments==2.6.1
 pylint==2.3.1
 pylint-django==2.0.12

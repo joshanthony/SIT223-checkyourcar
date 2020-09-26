@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Provides standard database validity checking with import/export library
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
+SITE_ID = 1
+
 
 
 # Application definition
@@ -38,6 +40,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -45,7 +48,15 @@ INSTALLED_APPS = [
     'checkyourcar.apps.CheckyourcarConfig',
     'import_export',
     'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,6 +74,10 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
 ]
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
 
 ROOT_URLCONF = 'backend.urls'
 
