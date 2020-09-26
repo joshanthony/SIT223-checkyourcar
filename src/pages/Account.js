@@ -80,7 +80,7 @@ class Account extends Component {
                 </div>
                 <div class="row justify-content-md-center mb-4 mt-4">
                     <div class="col-4">
-                        <Link className="btn btn-primary" to="/add">Add New Car</Link> <Link className="btn btn-secondary" to="/settings">Account Settings</Link>
+                        <Link className="btn btn-primary" to="/add">Add New Car</Link>
                     </div>
                 </div>
                 <div class="row justify-content-md-center">
