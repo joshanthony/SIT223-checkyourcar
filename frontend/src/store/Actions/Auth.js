@@ -57,12 +57,12 @@ export const authLogin = (username, password) => {
             dispatch(authFail(err));
 
             // TESTING ONLY, REMOVE WHEN DONE
-            const token = 123;
-            const expirationDate = new Date(new Date().getTime() + 86400 * 1000);
-            localStorage.setItem('token', token);
-            localStorage.setItem('expirationDate', expirationDate);
-            dispatch(authSuccess(token));
-            dispatch(checkAuthTimeout(86400));
+            // const token = 123;
+            // const expirationDate = new Date(new Date().getTime() + 86400 * 1000);
+            // localStorage.setItem('token', token);
+            // localStorage.setItem('expirationDate', expirationDate);
+            // dispatch(authSuccess(token));
+            // dispatch(checkAuthTimeout(86400));
         })
     }
 }
@@ -70,7 +70,7 @@ export const authLogin = (username, password) => {
 export const authSignup = (username, email, password1, password2) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('http://127.0.0.1:8000/rest-auth/registration/', {
+        axios.post('http://127.0.0.1:8000/rest-autho/registration/', {
             username: username,
             email: email,
             password1: password1,
@@ -88,12 +88,12 @@ export const authSignup = (username, email, password1, password2) => {
             dispatch(authFail(err))
 
             // TESTING ONLY, REMOVE WHEN DONE
-            const token = 123;
-            const expirationDate = new Date(new Date().getTime() + 86400 * 1000);
-            localStorage.setItem('token', token);
-            localStorage.setItem('expirationDate', expirationDate);
-            dispatch(authSuccess(token));
-            dispatch(checkAuthTimeout(86400));
+            // const token = 123;
+            // const expirationDate = new Date(new Date().getTime() + 86400 * 1000);
+            // localStorage.setItem('token', token);
+            // localStorage.setItem('expirationDate', expirationDate);
+            // dispatch(authSuccess(token));
+            // dispatch(checkAuthTimeout(86400));
         })
     }
 }
