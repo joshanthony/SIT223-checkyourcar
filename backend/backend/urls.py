@@ -24,6 +24,4 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-autho/registration/', include('rest_auth.registration.urls')),
     path('api-auth', include('rest_framework.urls')),
-    path('<int:pk>/', CarSearch.as_view()),
-    path('', CarList.as_view()),
 ]
