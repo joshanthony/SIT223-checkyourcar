@@ -36,6 +36,8 @@ class Home extends Component {
 
     changeHandler = (event) => {
         this.setState({[event.target.name]: event.target.value});
+        console.log([event.target.name]);
+        console.log(event.target.value);
     }
 
     submitHandler(event) {
@@ -88,20 +90,12 @@ class Home extends Component {
                     <div className="col">
                         <h1><img className="logo" src={logo} /></h1>
                         <h2>Enter Your Car Details</h2>
+                        <h4>e.g. Honda Jazz 2010</h4>
                     </div>
                 </div>
                 <div className="row justify-content-md-center mb-4 mt-4">
                     <div className="col-4">
                         <form onSubmit={this.submitHandler}>
-                            <div className="form-group">
-                                <input type="text" placeholder="Make" name="make" value={this.state.make} onChange={this.changeHandler} className="form-control form-control-lg" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" placeholder="Model" name="model" value={this.state.model} onChange={this.changeHandler} className="form-control form-control-lg" />
-                            </div>
-                            <div className="form-group">
-                                <input type="text" placeholder="Year" name="year" value={this.state.year} onChange={this.changeHandler} className="form-control form-control-lg" />
-                            </div>
                             <div className="form-group">
                                 <select name="make" className="form-control form-control-lg" onChange={this.changeHandler}>
                                 {this.state.cars.map(o => <option value={o.make}>{o.make}</option>)}
