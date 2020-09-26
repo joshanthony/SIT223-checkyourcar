@@ -6,7 +6,7 @@ class CarSerializer(serializers.ModelSerializer):
     # issues = IssueSerializer(many=True)
     class Meta:
         model = Car
-        fields = ('make', 'model', 'year')
+        fields = ('id', 'make', 'model', 'year')
 
 class IssueSerializer(serializers.ModelSerializer):
     cars = CarSerializer(many=True, read_only=True)
