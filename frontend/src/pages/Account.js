@@ -56,11 +56,13 @@ class Account extends Component {
             }
         ]
 
+        const token = localStorage.getItem('token');
+
         axios.defaults.headers = {
             "Content-Type": "application/json",
-            Authorization: `Token ${this.props.token}`
+            Authorization: `Token ${token}`
         };
-
+        
         axios
             .get('http://127.0.0.1:8000/api/cars/')
             .then(res => {

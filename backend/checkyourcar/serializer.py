@@ -26,3 +26,24 @@ class UserCarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
         fields = ('id', 'make', 'model', 'year', 'users','issues')
+
+    def update(self, instance, validated_data):
+        current_user = self.context['request'].user
+        users_data = [current_user]
+        instance.users.add(*users_data)
+        instance.save()
+        return instance
+
+class RemoveUserCarSerializer(serializers.ModelSerializer):
+    users = UserSerializer(many=True, read_only=True)
+    issues = IssueSerializer(many=True)
+    class Meta:
+        model = Car
+        fields = ('id', 'make', 'model', 'year', 'users','issues')
+
+    def update(self, instance, validated_data):
+        current_user = self.context['request'].user
+        users_data = [current_user]
+        instance.users.remove(*users_data)
+        instance.save()
+        return instance

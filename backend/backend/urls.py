@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from checkyourcar.views import CarSearch, CarList, IssueSearch, UserCarList
+from checkyourcar.views import CarSearch, CarList, IssueSearch, UserCarList, CarUpdateView, CarDestroyView
 
 urlpatterns = [
     path('api/issues/', IssueSearch.as_view()),
     path('api/cars/', UserCarList.as_view()),
+    path('api/cars/<pk>', CarUpdateView.as_view()),
+    path('api/cars/<pk>/remove', CarDestroyView.as_view()),
     path('admin/', admin.site.urls),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-autho/registration/', include('rest_auth.registration.urls')),

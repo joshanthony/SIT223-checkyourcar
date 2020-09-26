@@ -5,6 +5,7 @@ class AddCar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
             make: '',
             model: '',
             year: '',
@@ -38,7 +39,7 @@ class AddCar extends Component {
             // };
 
             // axios
-            //     .post('http://127.0.0.1:8000/api/', {
+            //     .patch('http://127.0.0.1:8000/api/', {
             //         make: make,
             //         model: model,
             //         year: year

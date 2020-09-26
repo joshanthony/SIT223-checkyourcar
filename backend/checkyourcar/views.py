@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from tablib import Dataset
 from checkyourcar.resources import CarResources, IssueResources
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+# from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet, Filter
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
 
-from checkyourcar.serializer import CarSerializer, IssueSerializer, UserCarSerializer
+from checkyourcar.serializer import CarSerializer, IssueSerializer, UserCarSerializer, RemoveUserCarSerializer
 from checkyourcar.models import Car, Issue
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
@@ -69,6 +71,18 @@ class UserCarList(ListAPIView):
         queryset = queryset.filter(users__id=current_user.id)
         return queryset
 
+class CarUpdateView(UpdateAPIView):
+    queryset = Car.objects.all()
+    serializer_class = UserCarSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+class CarDestroyView(UpdateAPIView):
+    queryset = Car.objects.all()
+    serializer_class = RemoveUserCarSerializer
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
 def simple_upload(request):
     if request.method == 'POST':
         car_resource = CarResources()
@@ -82,17 +96,3 @@ def simple_upload(request):
             car_resource.import_data(dataset, dry_run=False)  # Actually import now
 
     return render(request, 'core/simple_upload.html')
-
-
-# class IssueFilter(FilterSet):
-#     make = NumberFilter(name='employee_owner__id')
-#     model = NumberFilter(name='employee_doer__id')
-#     year = NumberFilter(method='filter_both')
-
-#     class Meta:
-#         model = Task
-#         fields = {
-#             'owner_id',
-#             'doer_id',
-#             'both_id' 
-#         }
