@@ -66,9 +66,9 @@ class Home extends Component {
 
         axios.get('https://checkyourcar.herokuapp.com/api/issues/', {
             params: {
-                make: this.state.make,
-                model: this.state.model,
-                year: this.state.year
+                make: make,
+                model: model,
+                year: year
             }
         })
         .then(res => {
