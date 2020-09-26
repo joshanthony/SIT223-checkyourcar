@@ -24,7 +24,7 @@ class Home extends Component {
     componentDidMount() {
 
         axios
-            .get('http://127.0.0.1:8000/api/carlist/')
+            .get('https://checkyourcar.herokuapp.com/api/carlist/')
             .then(res => {
                 this.setState({ cars: res.data });
                 console.log(res.data);
@@ -43,7 +43,7 @@ class Home extends Component {
 
         this.setState({loading: true});
 
-        axios.get('http://127.0.0.1:8000/api/issues/', {
+        axios.get('https://checkyourcar.herokuapp.com/api/issues/', {
             params: {
                 make: this.state.make,
                 model: this.state.model,
