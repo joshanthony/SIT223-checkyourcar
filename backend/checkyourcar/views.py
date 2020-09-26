@@ -5,8 +5,9 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet, Filter
 
-from checkyourcar.serializer import CarSerializer, IssueSerializer
+from checkyourcar.serializer import CarSerializer, IssueSerializer, UserCarSerializer
 from checkyourcar.models import Car, Issue
+from django.contrib.auth.models import User
 from django.db.models import Prefetch
 
 # Filters
@@ -53,6 +54,15 @@ class IssueSearch(ListAPIView):
 class IssueList(ListAPIView):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
+
+class UserCarList(ListAPIView):
+    queryset = Car.objects.all()
+    serializer_class = UserCarSerializer
+    filter_backends = [DjangoFilterBackend]
+    
+    def get_queryset(self):
+        current_user = self.request.user
+        return User.objects.filter(id=current_user.id)
 
 def simple_upload(request):
     if request.method == 'POST':

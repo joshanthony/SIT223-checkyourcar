@@ -56,19 +56,20 @@ class Account extends Component {
             }
         ]
 
-        // axios.defaults.headers = {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Token ${this.props.token}`
-        // };
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            Authorization: `Token ${this.props.token}`
+        };
 
-        // axios
-        //     .get('http://127.0.0.1:8000/api/cars/')
-        //     .then(res => {
-        //         this.setState({ results: res.data });
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     });
+        axios
+            .get('http://127.0.0.1:8000/api/cars/')
+            .then(res => {
+                this.setState({ results: res.data });
+                console.log(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
 
         this.setState({
             results: results,

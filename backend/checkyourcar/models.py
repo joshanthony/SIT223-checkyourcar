@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User as RestUser
 
 class Car(models.Model):
     id = models.AutoField("Unique Identifier", primary_key=True)
@@ -6,6 +7,7 @@ class Car(models.Model):
     model = models.CharField("Model", max_length=100)
     year = models.IntegerField("Year")
     issues = models.ManyToManyField("Issue", blank=True)
+    users = models.ManyToManyField(RestUser)
 
     def __unicode__(self):
         return self.id
