@@ -73,7 +73,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
-    'checkyourcar.herokuapp.com',
+    'https://checkyourcar.herokuapp.com',
 ]
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
