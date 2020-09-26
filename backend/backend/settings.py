@@ -24,16 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'k0atnt0pxjd*)s)1#2txdn7u*%k#xloypfy=9w351!3_jz$0xz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 # Provides standard database validity checking with import/export library
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 SITE_ID = 1
 
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Application definition
 
