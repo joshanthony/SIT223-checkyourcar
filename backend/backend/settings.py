@@ -26,14 +26,13 @@ SECRET_KEY = 'k0atnt0pxjd*)s)1#2txdn7u*%k#xloypfy=9w351!3_jz$0xz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['checkyourcar.herokuapp.com']
 
 # Provides standard database validity checking with import/export library
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 SITE_ID = 1
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Application definition
 
@@ -149,6 +148,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Rest framework settings
 REST_FRAMEWORK = {
