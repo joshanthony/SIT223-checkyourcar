@@ -23,7 +23,7 @@ class AddCar extends Component {
         const results = []
 
         axios
-            .get('http://127.0.0.1:8000/api/carlist/')
+            .get('https://checkyourcar.herokuapp.com/api/carlist/')
             .then(res => {
                 this.setState({ results: res.data });
 
@@ -70,7 +70,7 @@ class AddCar extends Component {
             Authorization: `Token ${localStorage.getItem('token')}`
         };
         axios
-            .patch(`http://127.0.0.1:8000/api/cars/${id}/`)
+            .patch(`https://checkyourcar.herokuapp.com/api/cars/${id}/`)
             .then(res => {
                 console.log(res);
             })
