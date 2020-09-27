@@ -15,7 +15,8 @@ class Home extends Component {
             results: [],
             showResults: false,
             selected: [],
-            loading: false
+            loading: false,
+            errorMessage: null
         };
         this.submitHandler = this.submitHandler.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
@@ -74,12 +75,17 @@ class Home extends Component {
         .then(res => {
             //let issues = [];
             //res.data.map((issue) => { issues = [...issues, issue.issues] });
-            this.setState({ results: res.data, loading: false });
-            this.toggleResultsHandler();
-            console.log(this.state.results);
+            if (res.data.length < 1) {
+                this.setState({ results: [], loading: false, errorMessage: "No data available, please try a different search! e.g. Toyota Yaris 2006" });
+            } else {
+                this.setState({ results: res.data, loading: false, errorMessage: null });
+                this.toggleResultsHandler();
+                console.log(this.state.results);
+            }
         })
         .catch(err => {
             console.log(err);
+            this.setState({ errorMessage: "No data available, please try a different search! e.g. Toyota Yaris 2006" });
         });
 
         if(this.state.results.length) {
@@ -101,6 +107,16 @@ class Home extends Component {
         if(this.state.showResults) {
         results = <Results
             results={this.state.results} />
+        }
+
+        let errorMessage = (
+            <p>&nbsp;</p>
+        );
+
+        if (this.state.errorMessage !== null) {
+            errorMessage = (
+                <p className="error-msg">{this.state.errorMessage}</p>
+            );
         }
 
         return (
@@ -137,6 +153,7 @@ class Home extends Component {
                 <div className="row justify-content-md-center">
                     <div className="col-6">
                         {this.state.loading ? <Spinner text="Loading..." /> : results}
+                        <div>{errorMessage}</div>
                     </div>
                 </div>
             </div>
